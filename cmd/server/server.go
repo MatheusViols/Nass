@@ -8,6 +8,7 @@ import (
 
 
 func main() {
+	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/edit/", handlers.Edit)
 	http.HandleFunc("/save/", handlers.Save)
 	

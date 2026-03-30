@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NASS</title>
-    <link rel="stylesheet" href="style/style.css" />
-
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--bg-color);
@@ -92,30 +99,25 @@
         button:active {
             transform: scale(0.98);
         }
-
     </style>
 </head>
 <body>
+
+    <header>
+        <h1>Good Morning, Captain!</h1>
+        <div> 
+        	<p> Want to write something? Just start! </p>
+        </div>
+    </header>
+
     <main>
         <div class="container">
-
-            <div id="saveMessageBox"></div>
-
-            <form id="editor">
-                <!-- Area de formulário não aparente para o usuário que contenha o titulo -->
-                <input id="noteTitle" type="hidden" name="title" value="{{.Title}}">
-                <textarea id="noteBody" name="body" placeholder="Start writing your thoughts!">{{.Body}}</textarea>
-                <button id="saveButton">Save Changes</button>
+            <form action="/edit/" method="POST">
+                <input type="text" name="title" placeholder="Note's title..."></textarea>
+                <button type="submit">Edit Note</button>
             </form>
         </div>
     </main>
+
 </body>
-
-<script>
- /*
-Implementar o envio do formulário pelo botão Save em edit.html
-Implementar a recepção da resposta e edição do html para que mostre a mensagem recebida
-*/   
-</script>
-
 </html>

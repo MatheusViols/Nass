@@ -8,15 +8,15 @@ import (
 type NotesList struct {
 	list []Note
 }
-
 var Notes = NotesList{
 	list: make([]Note, 0),
 }
 
 func (nts *NotesList) Search(searchTitle string) (*Note, error) {
-	for _, actualNote :=  range nts.list {
-		if actualNote.Title == searchTitle {
-			return &actualNote, nil
+
+	for i := range nts.list {
+		if nts.list[i].Title == searchTitle {
+			return &nts.list[i], nil
 		}
 	}
 
