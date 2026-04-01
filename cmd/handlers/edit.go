@@ -16,7 +16,7 @@ func Edit(res http.ResponseWriter, req *http.Request) {
 
 	var noteTitle string = req.FormValue("title")
 	if noteTitle == "" {
-		http.Redirect(res, req, "Notes can't have empty titles", 400)
+		http.Redirect(res, req, "/", http.StatusSeeOther)
 		return
 	}
 
