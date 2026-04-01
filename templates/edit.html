@@ -121,27 +121,33 @@
 </body>
 
 <script>
-    function displayMessage(message) {
-        var saveMessageBox = document.getElementById("save-message-box");
-        var pMessage = document.createElement('p');
-        pMessage.id = "message"
+    function displayMessage(message, successful) {
+        let saveMessageBox = document.getElementById("save-message-box");
+        let pMessage = document.createElement('p');
+        pMessage.id = "message";
+
+        if (successful) {
+            pMessage.style.color = "green";
+        } else {
+            pMessage.style.color = "red";
+        }
 
         pMessage.textContent = message;
         saveMessageBox.appendChild(pMessage);
     }
 
     function removeMessage() {
-        var saveMessageBox = document.getElementById("save-message-box");
-        var pMessage = document.getElementById("message");
+        let saveMessageBox = document.getElementById("save-message-box");
+        let pMessage = document.getElementById("message");
 
         saveMessageBox.removeChild(pMessage);
     }
 
 
     function getSaveRequest() {
-        var editorForm = document.getElementById("editor");
+        let editorForm = document.getElementById("editor");
 
-        var data = new FormData(editorForm);
+        let data = new FormData(editorForm);
         data = Object.fromEntries(data.entries());
 
         return {
@@ -156,21 +162,20 @@
     async function saveNote(event) {
         event.preventDefault();
 
-        var req = getSaveRequest();
+        let req = getSaveRequest();
 
-        var res = await fetch("/save/", req).catch(error => console.log(error.message));
+        let res = await fetch("/save/", req).catch(error => console.log(error.message));
 
-
-        var resData = await res.json();
+        let resData = await res.json();
        
-        displayMessage(resData.Message);
+        displayMessage(resData.Message, res.ok);
 
         setTimeout(() => {
             removeMessage()
-        }, 2000)
+        }, 3000)
     }
 
-    var saveButton = document.getElementById("save-button");
+    let saveButton = document.getElementById("save-button");
     saveButton.addEventListener("click", saveNote);
 
 </script>
