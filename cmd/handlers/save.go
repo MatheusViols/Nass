@@ -14,10 +14,21 @@ type SavedMessage struct {
 
 
 func Save(res http.ResponseWriter, req *http.Request) {
-	var noteTitle string = req.URL.Path[len("/save/"):]
-	var noteBody string = req.FormValue("body")
 
 	var sm = SavedMessage{}
+
+	var bodyData models.NoteDTO
+	
+	err := json.NewDecoder(req.Body).Decode(&bodyData)
+	if err != nil {
+		sm.Message = "Internal Error"
+		res.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(res).Encode(sm)
+		return
+	}
+
+	var noteTitle string = bodyData.Title
+	var noteBody string = bodyData.Body 
 
 	if noteTitle == "" {
 		sm.Message = "Notes can't have an empty title"
