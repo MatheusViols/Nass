@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASS</title>
+
+    <link rel="stylesheet" href="/static/style/style.css" >
+    <script src="/static/scripts/edit-script.js" defer> </script>
+</head>
+<body>
+    <main>
+        <div class="container">
+
+            <div id="save-message-box"></div>
+
+            <form id="editor">
+                <!-- Area de formulário não aparente para o usuário que contenha o titulo -->
+                <input id="note-title" type="hidden" name="title" value="{{.Title}}">
+                <textarea id="note-body" name="body" placeholder="Start writing your thoughts!">{{.Body}}</textarea>
+                <button id="save-button">Save Changes</button>
+            </form>
+
+        </div>
+    </main>
+</body>
+</html>
