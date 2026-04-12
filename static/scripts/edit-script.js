@@ -1,23 +1,23 @@
 function displayMessage(message, successful) {
 	let saveMessageBox = document.getElementById("save-message-box");
+	let divMessage = document.createElement('div');
 	let pMessage = document.createElement('p');
-	pMessage.id = "message";
 
 	if (successful) {
-		pMessage.style.color = "green";
+		divMessage.setAttribute('id', 'succeed-message');
 	} else {
-		pMessage.style.color = "red";
+		divMessage.setAttribute('id', 'error-message');
 	}
 
 	pMessage.textContent = message;
-	saveMessageBox.appendChild(pMessage);
+	divMessage.appendChild(pMessage);
+	saveMessageBox.appendChild(divMessage);
+
 }
 
 function removeMessage() {
 	let saveMessageBox = document.getElementById("save-message-box");
-	let pMessage = document.getElementById("message");
-
-	saveMessageBox.removeChild(pMessage);
+	saveMessageBox.removeChild(saveMessageBox.firstChild);
 }
 
 

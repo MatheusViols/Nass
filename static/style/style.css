@@ -5,6 +5,8 @@
 	--text-color: #1e293b;
 	--card-bg: #ffffff;
 	--border-color: #e2e8f0;
+	--succeed-message: #72F797;
+	--error-message: #C43B44;
 }
 
 body {
@@ -45,6 +47,7 @@ main {
 	max-width: 800px;
 	border: 1px solid var(--border-color);
 }
+
 
 
 form {
@@ -93,4 +96,28 @@ button:hover {
 
 button:active {
 	transform: scale(0.98);
+}
+
+#succeed-message {
+	background: var(--succeed-message);
+	color: white;
+	border-radius: 5px;
+	padding: 0.1rem;
+	font-size: 1rem;
+	width: 100%;
+
+	text-align: center;
+	text-shadow: 1px 1px 1px black;
+}
+
+#error-message {
+	background: var(--error-message);
+	color: white;
+	border-radius: 5px;
+	padding: 0.1rem;
+	font-size: 1rem;
+	width: 100%;
+
+	text-align: center;
+	text-shadow: 1px 1px 1px black;
 }
