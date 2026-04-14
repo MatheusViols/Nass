@@ -2,10 +2,12 @@ package main
 
 import (
 	"net/http"
+	"database/sql"
 
 	"nass/cmd/handlers"
 )
 
+var db *sql.DB
 
 func main() {
 	fs := http.FileServer(http.Dir("../../static/"))
@@ -15,8 +17,6 @@ func main() {
 	http.HandleFunc("/edit/", handlers.Edit)
 	http.HandleFunc("/save/", handlers.Save)
 
-
-	
 
 	http.ListenAndServe(":8000", nil)
 }

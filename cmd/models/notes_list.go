@@ -3,53 +3,62 @@ package models
 import (
 	"time"
 	"errors"
+	"database/sql"
 )
 
 type NotesList struct {
-	list []Note
+	db *sql.DB
 }
+
 var Notes = NotesList{
-	list: make([]Note, 0),
+	db: connect(),
 }
 
 func (nts *NotesList) Search(searchTitle string) (*Note, error) {
+	var note Note = Note{}
 
-	for i := range nts.list {
-		if nts.list[i].Title == searchTitle {
-			return &nts.list[i], nil
-		}
+	row := nts.db.QueryRow("SELECT * FROM notes WHERE title = ?", searchTitle)
+	err :=  row.Scan(&note.ID, &note.Title, &note.Body, &note.Date);
+
+	if err != nil {
+		return nil, errors.New("Could not find a note for the title" + searchTitle)
 	}
 
-	return nil, errors.New("Could not find a note for the title" + searchTitle)
+	return &note, nil
 }
 
 func (nts *NotesList) Add(newNote NoteDTO) error {
-	existentNote, _ := Notes.Search(newNote.Title)
+	existentNote, err := nts.Search(newNote.Title)
 	if existentNote != nil {
-		return errors.New("Can't create a note if it already exists")
+		return errors.New("Trying to add an already existent note")
 	}
 
-	
-	note := Note{
-		Title: newNote.Title,
-		Body: newNote.Body,
-		Date: time.Now().Format(time.DateOnly),
-	}
+	actualDate := time.Now().Format(time.DateOnly)
 
-	nts.list = append(nts.list, note)
+	cmd := "INSERT INTO notes (title, body, edit_date) VALUES (?, ?, ?)"
+
+	_, err = nts.db.Exec(cmd, newNote.Title, newNote.Body, actualDate)
+	if err != nil {
+		return errors.New("Could not add the new note")
+	}
 
 	return nil
 }
 
 func (nts *NotesList) Edit(noteTitle string, newNote NoteDTO) error {
-	existentNote, err := Notes.Search(noteTitle)
-	if err != nil {
-		return errors.New(noteTitle + " does not exist")
+	existentNote, err := nts.Search(noteTitle)
+	if existentNote == nil {
+		return errors.New("Could not find a note for the title" + noteTitle)
 	}
 
-	existentNote.Title = newNote.Title
-	existentNote.Body = newNote.Body
-	existentNote.Date = time.Now().Format(time.DateOnly)
+	actualDate := time.Now().Format(time.DateOnly)
+
+	cmd := "UPDATE notes SET title = ? , body = ? , edit_date = ? WHERE title = ?"
+
+	_, err = nts.db.Exec(cmd, newNote.Title, newNote.Body, actualDate, noteTitle)
+	if err != nil {
+		return errors.New("Could not edit the note" + noteTitle)
+	}
 
 	return nil
 }

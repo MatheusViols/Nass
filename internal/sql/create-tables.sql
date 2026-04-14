@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS nass;
+
+CREATE TABLE notes (
+	id 	INT AUTO_INCREMENT NOT NULL,
+	title 	VARCHAR(200) NOT NULL,
+	body 	VARCHAR(2000),
+	edit_date DATE NOT NULL,
+
+	PRIMARY KEY(`id`)
+);
